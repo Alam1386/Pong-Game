@@ -25,3 +25,9 @@ A basic pong game using SVGs.
 **Player 2:**
 * ▲ : up
 * ▼: down
+
+**Feature:**
+- Each time the ball hits the paddles it sounds.
+
+**Coded by:**
+- Alam Talash @ RED Academy, Toronto @ 10 Feb 2019
