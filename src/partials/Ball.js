@@ -97,7 +97,7 @@ export default class Ball {
     circle.setAttributeNS(null, 'r', this.radius);
     circle.setAttributeNS(null, 'cx', this.x);
     circle.setAttributeNS(null, 'cy', this.y);
-    circle.setAttributeNS(null, 'fill', '#FF0000');
+    circle.setAttributeNS(null, 'fill', '#000000');
     svg.appendChild(circle);
   }
 }
