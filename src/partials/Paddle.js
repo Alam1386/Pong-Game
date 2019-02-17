@@ -1,67 +1,60 @@
-import {SVG_NS, KEYS} from '../settings'
+import { SVG_NS, KEYS } from '../settings'
 
 export default class Paddle {
-
-  constructor(boardHeight, width, height, x, y, up, down) {
+  constructor(boardHeight, width, height, x, y, paddleUp, paddleDown) {
     this.boardHeight = boardHeight;
     this.width = width;
     this.height = height;
     this.x = x;
     this.y = y;
-
     this.speed = 10;
     this.score = 0;
 
     document.addEventListener('keydown', event => {
-      switch(event.key) {
-        case up: 
-          this.up();
+      switch (event.keyCode) {
+        case paddleUp:
+          this.y = Math.max(0, this.y - this.speed);
           break;
-        case down:
-          this.down();
+        case paddleDown:
+          this.y = Math.min(this.boardHeight - this.height, this.y + this.speed);
           break;
-      }
-    });
-
-  //Keyevent to make paddles larger
-    document.addEventListener('keydown', event => {
-      if ( event.key === KEYS.g ) {
-        this.height = this.height * 1.1
-      }
-    });
-  
-  //Keyevent to make paddles smaller
-    document.addEventListener('keydown', event => {
-      if ( event.key === KEYS.b ) {
-        this.height = this.height * 0.91
-      }
+        case KEYS.m:
+          this.changeMode();
+          break;
+        }
     });
   }
 
-  coordinates(x, y, width, height) {
+
+  changeMode() {
+    if (this.height === 56) {
+      this.height = 30;
+      this.speed = 15;
+    }
+    else {
+      this.height = 56;
+      this.speed = 10;
+    }
+  }
+
+    coordinates(x, y, width, height) {
     let leftX = x;
     let rightX = x + width;
     let topY = y;
     let bottomY = y + height;
-    return { leftX, rightX, topY, bottomY };
+    return [leftX, rightX, topY, bottomY];
   }
 
-  up() {
-    this.y = Math.max((this.y - this.speed), 0);
-  }
+   render(svg) {
+    let paddle = document.createElementNS(SVG_NS, 'rect');
+    paddle.setAttributeNS(null, 'x', this.x);
+    paddle.setAttributeNS(null, 'y', this.y);
+    paddle.setAttributeNS(null, 'width', this.width);
+    paddle.setAttributeNS(null, 'height', this.height);
+    paddle.setAttributeNS(null, 'fill', 'green');
 
-  down() {
-    this.y = Math.min(this.y + this.speed, this.boardHeight - this.height);
-  }
-
-  render(svg) {
-    let rect = document.createElementNS(SVG_NS, 'rect');
-    // rect.setAttributeNS(null, '')
-    rect.setAttributeNS(null, 'width', this.width);
-    rect.setAttributeNS(null, 'height', this.height);
-    rect.setAttributeNS(null, 'fill', '#FFFFFF');
-    rect.setAttributeNS(null, 'x', this.x);
-    rect.setAttributeNS(null, 'y', this.y);
-    svg.appendChild(rect);
+    svg.appendChild(paddle);
   }
 }
+
+
